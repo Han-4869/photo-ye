@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  /* 讓網頁最外層預設就是透明的，且清除內建邊距 */
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important; /* 背景無色 */
+    color-scheme: light dark;                 /* 告訴瀏覽器相容深淺色，避免強制白底 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 輪播圖總容器 */
+  .slider {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    max-height: 500px;
+    background-color: transparent; /* 背景無色 */
+    display: flex;
+    flex-direction: column;   /* 圖片在上面，按鈕在下面 */
+    justify-content: center;  /* 垂直置中 */
+    align-items: center;      /* 水平置中 */
+    box-sizing: border-box;
+  }
+
+  /* 圖片固定尺寸與自動縮比設定 */
+  img {
+    width: 100%;             /* 讓圖片寬度可隨容器縮小 */
+    height: auto;            /* 高度依比例自動計算，防止變形 */
+    max-width: 450px;        /* 限制圖片的最大固定寬度 */
+    max-height: 350px;       /* 限制圖片的最大固定高度 */
+    border-radius: 8px;
+    object-fit: contain;     /* 保持比例置中，不裁切 */
+    display: none;           /* 預設隱藏所有圖片 */
+  }
+
+  /* 當前顯示的圖片 */
+  img.active {
+    display: block; 
+  }
+
+  /* 按鈕群組容器 */
+  .button-group {
+    display: flex;           /* 讓按鈕橫向排列 */
+    flex-direction: row;     /* 確保是左右平行 */
+    gap: 20px;               /* 按鈕之間的間距 */
+    margin-top: 20px;        /* 與圖片保持適當距離 */
+  }  
+
+  /* 按鈕基本樣式 */
+  button {
+    cursor: pointer;
+    padding: 8px 16px;
+    background: #f1f1f1;
+    color: #8600FF;
+    border: 1px solid #8600ff;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  button:hover {
+    background: #e1e1e1;    /* 滑鼠懸停時變深色 */
+  }
+</style>
+</head>
+<body>
+
+<div class="slider">
+  <img src="https://rich-almanac-075.notion.site/image/attachment%3A8eb727f0-cf34-4265-91f2-e699cbfe4c47%3Aimage.png?table=block&id=381a1326-578d-8039-bd1b-f1de9e91343d&spaceId=2379bd56-e2b0-447e-bfa2-604aea605852&width=1410&userId=&cache=v2&imgBuildSrc=requestProxiedImageUrl" class="active">
+  <img src="https://rich-almanac-075.notion.site/image/attachment%3A6e5fdc0e-5a5d-493e-bb59-579b92bc787c%3Aimage.png?table=block&id=381a1326-578d-80eb-9272-feb706d41cea&spaceId=2379bd56-e2b0-447e-bfa2-604aea605852&width=1410&userId=&cache=v2&imgBuildSrc=requestProxiedImageUrl">
+  <img src="https://rich-almanac-075.notion.site/image/attachment%3A242a3101-f85b-487f-bd5f-b17ec5f358db%3Aimage.png?table=block&id=381a1326-578d-80b4-ad17-d3d74158dcd6&spaceId=2379bd56-e2b0-447e-bfa2-604aea605852&width=660&userId=&cache=v2&imgBuildSrc=requestProxiedImageUrl">
+  
+  <div class="button-group">
+    <button onclick="changeSlide(-1)"> ◀︎ </button>
+    <button onclick="changeSlide(1)"> ▶︎ </button>
+  </div>
+</div>
+
+<script>
+  let currentIndex = 0;
+  const slides = document.querySelectorAll('.slider img');
+
+  function changeSlide(direction) {
+    if (slides.length === 0) return; 
+    slides[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + direction + slides.length) % slides.length;
+    slides[currentIndex].classList.add('active');
+  }
+</script>
+
+</body>
+</html>
